@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Cart;
 import com.example.demo.domain.User;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.UserRepository;

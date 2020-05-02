@@ -10,19 +10,47 @@
     </head>
 
     <body>
-        <div>
-            <h1>SpringBoot with Rest</h1>
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" onclick="displayProducts()">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="cart-button" onclick="displayCart()">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="logout-button" href="/">Log out</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+        
+        
+        <div class="main">
+            <h1>CarGallery - Das Auto</h1>
             <br>
             <h2><span class="alert alert-primary" role="alert" id="result-message"></span></h2>
 
             <form id="login-form">
                 <input type="text" class="form-control" name="user-name" placeholder = "Username" autofocus required><br>
                 <input type="password" class="form-control" name="user-pass" placeholder = "Password" required><br>
-                <input type="submit" class="btn btn-success" id="login-button" value="Login"> 
+                <input type="submit" class="btn btn-success form-control" id="login-button" value="Login"> 
             </form>
-
-            <button class="btn btn-primary" id="reg-button" onclick="registerClick()">Register</button>
-            <button class="btn btn-primary" id="cart-button" onclick="displayCart()">Cart</button>
+            
+            <br>
+            <button class="btn btn-primary form-control" id="reg-button" onclick="registerClick()">Register</button>
+            <!--button class="btn btn-primary" id="cart-button" onclick="displayCart()">Cart</button-->
 
             <button class="btn btn-primary" id="product-button" onclick="displayProducts()">Product</button>
             <button class="btn btn-primary" id="purchase-button" onclick="purchase()">Purchase</button>
@@ -34,15 +62,16 @@
                 Password <input type="password" class="form-control" name="user-pass" required><br>
                 <input class="btn btn-primary" type="submit" value="Register">
             </form>
+            
             <table class="table" id="stats" style="width:100%">
                 <br>
                 <br>
                 <thead>
                     <tr>     
                         <th id="th1">Id</th>
-                        <th id="th2">Name</th>
-                        <th id="th3">Brand</th>
-                        <th id="th4">Description</th>
+                        <th id="th2">Brand</th>
+                        <th id="th3">Model</th>
+                        <th id="th4">Color</th>
                         <th id="th5">Price</th>
                         <th> </th>
                     </tr>

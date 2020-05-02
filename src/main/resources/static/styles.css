@@ -3,11 +3,21 @@ html, body {
 }
 
 html {
-    display: table;
-    margin: auto;
+   
 }
 
 body {
+    /*
     display: table-cell;
-    vertical-align: middle;
+    vertical-align: middle;*/
 }
+
+.main {
+     display: table;
+    margin: auto;
+    /*display: table-cell;*/
+    vertical-align: middle;
+    margin-top: 5%;
+    padding: 5%;
+    background: #f8f9fa!important;
+} 

@@ -1,7 +1,7 @@
 function displayProducts() {
     $.ajax(
         {
-            url: "/customer/products",
+            url: "/product/showall",
         }).then(function (data) {
             $('#stats-body').empty();
             
@@ -10,16 +10,40 @@ function displayProducts() {
             $('#stats-body').append(
                 "<tr>" + 
                 "<td>" + row.id + "</td>" +
-                "<td>" + row.name + "</td>" +
                 "<td>" + row.brand + "</td>" +
+                "<td>" + row.name + "</td>" +
                 "<td>" + row.description + "</td>" +
                 "<td>" + row.price + "</td>" +
                 "<td><button class='btn btn-info' onclick='displayProductInfo(" + JSON.stringify(row.description) + ")'>More info</button></td>" +
-                "<td><button class='btn btn-success' onclick='addToCart(" + row.id + ")'>Add to cart</button></td></tr>");
+                "<td><button class='btn btn-primary' onclick='editProduct(" + row.id + ")'>Edit</button></td></tr>");
+                //"<td><button class='btn btn-success' onclick='addToCart(" + row.id + ")'>Add to order</button></td></tr>");
         }); 
         $("#cart-button").show();
         $("#purchase-button").hide();
         $("#product-button").hide();
+
+    });
+}
+
+function editProduct(){
+    $.ajax({
+        url: "/product/edit",
+    }).then(function (data) {
+        $('#stats-body').empty();
+        data.forEach(function (row) {
+            $('#stats-body').append('<tr><td>' + row.id + '</td>' +
+                    '<td>' + row.name + '</td>' +
+                    '<td>' + row.brand + '</td>' +
+                    '<td>' + row.description + '</td>' +
+                    '<td>' + row.price + '</td>' +
+                    "<td><button class='btn btn-success remove-button' onclick='removeFromCart(" + row.id + ")'>Remove Product</button></td></tr>");
+        });
+            $("#cart-button").hide();
+            $("#purchase-button").show();
+            $("#product-button").show();
+            $(".remove-button").show();
+
+
 
     });
 }
@@ -50,8 +74,8 @@ function checkHistory(data){
                     $('#stats-body').append(
                         "<tr>" + 
                         "<td>" + row.id + "</td>" +
-                        "<td>" + row.name + "</td>" +
                         "<td>" + row.brand + "</td>" +
+                        "<td>" + row.name + "</td>" +
                         "<td>" + row.description + "</td>" +
                         "<td>" + row.price + "</td>");
                 }); 
@@ -62,7 +86,7 @@ function checkHistory(data){
 function displayForAdmin() {
     $.ajax(
         {
-            url: "/customer/admin",
+            url: "/product/admin",
         }).then(function (data) {
             
             $('#stats-admin').show();
@@ -131,6 +155,7 @@ function preLogin(){
     $("#product-button").hide();
     $("#purchase-button").hide();
     $("#cart-button").hide();
+    $("#logout-button").hide();
     $("#admin-button").hide();
 
 }
@@ -185,10 +210,11 @@ function addToCart(data){
         }); 
 }
 
-function removeFromCart(data){
+
+function addToCart(data){
     var data = data;
     $.ajax({
-            url: '/cart/remove',
+            url: '/cart/add',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
@@ -198,13 +224,16 @@ function removeFromCart(data){
                 console.log(result);
                 $("#result-message").show();
                 if (result.id >0) {
-                    $('#result-message').empty().append("You removed a product: "+ result.productType);
-                    displayCart();                  
+                    $('#result-message').empty().append("You added a product: "+ result.productType);
+                    $("#login-form").hide();
+                    $(".reg-button").hide();
+                    $(".stats").show();                    
+                } else {
+                    $('.result-message').empty().append("Ooops that's not correct! But keep trying!");
                 }
             }
         }); 
 }
-
 
 $(document).ready(function () {
 
@@ -240,6 +269,7 @@ $(document).ready(function () {
                         $("#login-form").hide();
                         $("#reg-button").hide();
                         $("#cart-button").show();
+                        $("#logout-button").show();
                         $("#stats").show();  
                     }
                     else
@@ -248,6 +278,7 @@ $(document).ready(function () {
                         $('#result-message').empty().append("You have logged in: " + result.username + " - Role: " + result.roles);
                         $("#login-form").hide();
                         $("#reg-button").hide();
+                        $("#logout-button").show();
                         $("#stats-admin").show(); 
                     }
                 } 

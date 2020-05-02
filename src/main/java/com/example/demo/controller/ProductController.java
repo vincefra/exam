@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/product")
 final class ProductController {
 
     private final ProductService productService;
@@ -26,7 +26,7 @@ final class ProductController {
         this.loginService = loginService;
     }
 
-    @GetMapping("products")
+    @GetMapping("showall")
     ResponseEntity<List<Product>> productResult() {
         return ResponseEntity.ok(productService.getAllProducts());
     }

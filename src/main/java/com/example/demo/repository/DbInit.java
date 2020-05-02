@@ -9,37 +9,36 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DbInit implements CommandLineRunner{
-    private UserRepository userRepository;
-    private ProductRepository productRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     public DbInit(UserRepository userRepository, ProductRepository productRepository){
         this.userRepository = userRepository; 
         this.productRepository = productRepository;
+        //Declare repo so we can call its functions
     }
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(new User("a", "test1", "test"));
-        userRepository.save(new User("b", "test2", "test"));
-        userRepository.save(new User("c", "test3", "test"));
-        userRepository.save(new User("d", "test4", "test"));
+        userRepository.save(new User("test", "test", "test123"));    
+        //Add specific user as single in repo
 
-        User kenny = new User("kenny", "kenny", "kenny123");
-        User johnny = new User("johnny", "johnny", "johnny123","admin");
+        User admin = new User("admin", "admin", "admin123", "admin");
         User vincent = new User("vincent", "vincent", "vincent123", "admin");
+        //Make new user object and add into ArrayList, use saveAll to save that list
 
-        List<User> users = Arrays.asList(kenny, johnny, vincent);
-
-        //sparar alla users i db när programmt körs
+        List<User> users = Arrays.asList(admin, vincent);
+        
         this.userRepository.saveAll(users);
+        //Save all users (arrayList) into userRepo
 
-        Product shoe1 = new Product("shoe1", "nike", "airforce", "nice shoe", 100);
-        Product shoe2 = new Product("shoe2", "nike", "airforce", "very nice shoe", 100);
-        Product shoe3 = new Product("shoe3", "nike", "airforce", "super nice shoe", 100);
-        Product shoe4 = new Product("shoe4", "nike", "batman", "dope shoe", 500000);
+        Product p1 = new Product("Car", "Toyota", "Prius", "White Shine", 100);
+        Product p2 = new Product("Car", "Honda", "Accord", "Aurora Green", 100);
+        Product p3 = new Product("Car", "BMW", "M5", "Polished Carbon", 100);
+        Product p4 = new Product("Car", "Audi", "A5", "Black Diamond", 500000);
 
-        List<Product> shoes = Arrays.asList(shoe1, shoe2, shoe3, shoe4);
+        List<Product> products = Arrays.asList(p1, p2, p3, p4);
 
-        //sparar alla shor när programmt körs
-        this.productRepository.saveAll(shoes);
+        this.productRepository.saveAll(products);
+        //Save all products (arrayList) into productRepo
     }
 }
