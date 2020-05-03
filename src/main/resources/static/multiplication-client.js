@@ -3,7 +3,10 @@ function displayProducts() {
         {
             url: "/product/showall",
         }).then(function (data) {
+            
+            $('#edit-form').hide();
             $('#stats-body').empty();
+            $('#stats').show();
             
         data.forEach(function (row) 
         {
@@ -11,10 +14,10 @@ function displayProducts() {
                 "<tr>" + 
                 "<td>" + row.id + "</td>" +
                 "<td>" + row.brand + "</td>" +
-                "<td>" + row.name + "</td>" +
-                "<td>" + row.description + "</td>" +
+                "<td>" + row.model + "</td>" +
+                "<td>" + row.color + "</td>" +
                 "<td>" + row.price + "</td>" +
-                "<td><button class='btn btn-info' onclick='displayProductInfo(" + JSON.stringify(row.description) + ")'>More info</button></td>" +
+                //"<td><button class='btn btn-info' onclick='displayProductInfo(" + JSON.stringify(row.description) + ")'>More info</button></td>" +
                 "<td><button class='btn btn-primary' onclick='editProduct(" + row.id + ")'>Edit</button></td></tr>");
                 //"<td><button class='btn btn-success' onclick='addToCart(" + row.id + ")'>Add to order</button></td></tr>");
         }); 
@@ -25,26 +28,31 @@ function displayProducts() {
     });
 }
 
-function editProduct(){
+function editProduct(data){
+    var data = data;
     $.ajax({
-        url: "/product/edit",
-    }).then(function (data) {
-        $('#stats-body').empty();
-        data.forEach(function (row) {
-            $('#stats-body').append('<tr><td>' + row.id + '</td>' +
-                    '<td>' + row.name + '</td>' +
-                    '<td>' + row.brand + '</td>' +
-                    '<td>' + row.description + '</td>' +
-                    '<td>' + row.price + '</td>' +
-                    "<td><button class='btn btn-success remove-button' onclick='removeFromCart(" + row.id + ")'>Remove Product</button></td></tr>");
-        });
-            $("#cart-button").hide();
-            $("#purchase-button").show();
-            $("#product-button").show();
-            $(".remove-button").show();
+        url: '/product/edit',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+        success: function (result) 
+        {
+            $('#stats-body').empty();
+            $('#stats').hide();
+            $("#edit-form").show();
 
+            document.getElementById('input0').value = result.id; 
+            document.getElementById('input1').value = result.brand; 
+            document.getElementById('input2').value = result.model; 
+            document.getElementById('input3').value = result.color; 
 
-
+            //$("#cart-button").hide();
+            //$("#purchase-button").show();
+            //$("#product-button").show();
+            //$(".remove-button").show();
+        }
     });
 }
 
@@ -75,8 +83,8 @@ function checkHistory(data){
                         "<tr>" + 
                         "<td>" + row.id + "</td>" +
                         "<td>" + row.brand + "</td>" +
-                        "<td>" + row.name + "</td>" +
-                        "<td>" + row.description + "</td>" +
+                        "<td>" + row.model + "</td>" +
+                        "<td>" + row.color + "</td>" +
                         "<td>" + row.price + "</td>");
                 }); 
             }
@@ -151,6 +159,7 @@ function preLogin(){
     $("#stats").hide();
     $("#stats-admin").hide();
     $("#reg-form").hide();
+    $("#edit-form").hide();
     $("#result-message").hide();
     $("#product-button").hide();
     $("#purchase-button").hide();
@@ -323,4 +332,42 @@ $(document).ready(function () {
             }
         });
     });
+    
+    
+       $("#edit-form").submit(function (event) {
+
+    // Don't submit the form normally
+        event.preventDefault();
+        
+        // Get some values from elements on the page
+        var $form = $(this),
+                id = $form.find("input[name='edit-id']").val(),
+                brand = $form.find("input[name='edit-brand']").val(),
+                model = $form.find("input[name='edit-model']").val(),
+                color = $form.find("input[name='edit-color']").val();
+                
+        // Compose the data in the format that the API is expecting
+        var data = {id: id, brand : brand, model: model, color: color};
+        
+        // Send the data using post
+        $.ajax({
+            url: '/product/update',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                console.log(result);
+                $('#result-message').show().delay(1000).fadeOut();
+
+                if (result.brand !== null ) {
+                    $('#result-message').empty().append("Product has been updated!");
+                } else {
+                    $('#result-message').empty().append("Ooops something went wrong!");
+                }
+            }
+        });
+    });
+    
 });

@@ -35,17 +35,21 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        List<Product> p = productRepository.findAll();
-        if (loginServiceImpl.getUser().getRoles().equalsIgnoreCase("premium"))
-        {
-            p.forEach((ptemp) -> {
-                ptemp.setPrice(ptemp.getPremiumPrice());
-            });
-        }
-            
+        List<Product> p = productRepository.findAll();            
         return p;
     }
 
+    @Override
+    public Product updateProduct(Product product) {
+        if (product != null)
+        {
+            productRepository.save(product);
+            return product;
+        }
+        
+        return null;
+    }
+    
     @Override
     public Product findProductByProductId(long productId) {
         List<Product> products = getAllProducts();

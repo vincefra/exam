@@ -43,9 +43,6 @@ public class CartProductServiceImpl implements CartProductService{
     public List<Product> getCartProductsForCustomer(long customerId) {
         List<Product> cartProductsList = new ArrayList<>();
         cartProductRepository.findAll().stream().filter((cp) -> (cp.getCart().isPurchased())).filter((cp) -> (cp.getCart().getUser().getId() == customerId)).map((cp) -> {
-            //en fuling för att återställa priset på en produkt som inte är premiumpris, dvs vi köpte varan innan vi blev premium
-            if (!cp.isPremium() && cp.getProduct().getPrice() == cp.getProduct().getPremiumPrice())
-                cp.getProduct().setPrice(cp.getProduct().getPrice() / 9 * 10);
             return cp;
         }).forEachOrdered((cp) -> {
             cartProductsList.add(cp.getProduct());

@@ -30,10 +30,24 @@ final class ProductController {
     ResponseEntity<List<Product>> productResult() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
+    //Show all products
     
     @GetMapping("admin")
     ResponseEntity<List<User>> adminResult() {
         return ResponseEntity.ok(loginService.getAllusersNoCart());
     }
+    //Display for admin
+    
+    @PostMapping("/edit")
+    ResponseEntity<Product> edit(@RequestBody int productId) {
+        return ResponseEntity.ok(productService.findProductByProductId(productId));
+    }
+    //Take us to edit-page with correct data
+    
+    @PostMapping("/update")
+    ResponseEntity<Product> update(@RequestBody Product product) {
+        return ResponseEntity.ok(productService.updateProduct(product));
+    }
+    //Update data in db
 
 }

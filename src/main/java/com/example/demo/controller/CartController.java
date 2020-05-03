@@ -38,7 +38,7 @@ final class CartController {
     ResponseEntity<Product> add(@RequestBody int productId) {
         Product product = productService.findProductByProductId(productId);
         
-        System.out.println(product.getName());
+        System.out.println(product.getModel());
         return ResponseEntity.ok(productService.addToCart(product));
     }
     
@@ -47,7 +47,7 @@ final class CartController {
         Product product = productService.findProductByProductId(productId);
         cartProductService.removeCartProduct(product);
         
-        System.out.println(product.getName());
+        System.out.println(product.getModel());
         return ResponseEntity.ok(product);
     }
     

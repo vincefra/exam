@@ -11,25 +11,19 @@ public class Product{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //@ManyToMany
-    //private List<Cart> carts;
-    private String productType; // available "snowboard, binding, boot"
-    private String brand;  
-    private String name;
-    private String description;
-    private double price;
-    private double premiumPrice;
 
-    public Product(String productType, String brand,
-                    String name, String description, 
-                    double price) {
-        //this.carts = carts;
+    private String productType;
+    private String brand;  
+    private String model;
+    private String color;
+    private double price;
+
+    public Product(String productType, String brand, String model, String color, double price) {
         this.productType = productType;
         this.brand = brand;
-        this.name = name;
-        this.description = description;
+        this.model = model;
+        this.color = color;
         this.price = price;
-        this.premiumPrice = price * 0.9;
     }
 
     public Product() {
@@ -59,30 +53,22 @@ public class Product{
         this.brand = brand;
     }
 
-    public String getName() {
-        return name;
+    public String getModel() {
+        return model;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public String getDescription() {
-        return description;
+    public String getColor() {
+        return color;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    /*
-    public double getCustomerPrice(User2 u) {
-        
-        if(u.getStatus().equals("premium")) { return price * 0.9;}
-        
-        return price;
-    }
-*/
     public double getPrice() {
         
         return price;
@@ -92,23 +78,6 @@ public class Product{
         this.price = price;
     }
 
-    public double getPremiumPrice() {
-        return premiumPrice;
-    }
-
-    public void setPremiumPrice(double price) {
-        this.premiumPrice = price;
-    }   
-/*
-    public List<Cart> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
-    }
-*/
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -123,17 +92,12 @@ public class Product{
             return false;
         }
         Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "Product{" + "productType=" + productType + ", brand=" + brand + ", name=" + name + ","
-                + " description=" + description + ", price=" + price + ", premiumPrice=" + premiumPrice + '}';
-    }
-    
-    
+        return "Product{" + "productType=" + productType + ", brand=" + brand + ", model=" + model + ","
+                + " color=" + color + ", price=" + price + '}';
+    }  
 }

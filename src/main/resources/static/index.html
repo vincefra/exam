@@ -38,7 +38,7 @@
         
         
         <div class="main">
-            <h1>CarGallery - Das Auto</h1>
+            <center><h1>CarGallery - Das Auto</h1></center>
             <br>
             <h2><span class="alert alert-primary" role="alert" id="result-message"></span></h2>
 
@@ -61,6 +61,14 @@
                 Username <input type="text" class="form-control" name="user-name" required><br>
                 Password <input type="password" class="form-control" name="user-pass" required><br>
                 <input class="btn btn-primary" type="submit" value="Register">
+            </form>
+            
+            <form id="edit-form">
+                <input type="hidden" class="form-control" name="edit-id" id="input0"><br>
+                <input type="text" class="form-control" name="edit-brand" id="input1" placeholder = "Brand" autofocus required><br>
+                <input type="text" class="form-control" name="edit-model" id="input2" placeholder = "Model" required><br>
+                <input type="text" class="form-control" name="edit-color" id="input3" placeholder = "Color" required><br>
+                <input type="submit" class="btn btn-success form-control" id="edit-button" value="Edit"> 
             </form>
             
             <table class="table" id="stats" style="width:100%">
