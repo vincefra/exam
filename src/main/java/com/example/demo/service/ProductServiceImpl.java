@@ -51,6 +51,18 @@ public class ProductServiceImpl implements ProductService{
     }
     
     @Override
+    public String removeProduct(Product product) {
+        
+        if (product != null)
+        {
+            productRepository.delete(product);
+            return "OK";
+        }
+        
+        return "NO";
+    }
+    
+    @Override
     public Product findProductByProductId(long productId) {
         List<Product> products = getAllProducts();
         for(Product p : products){

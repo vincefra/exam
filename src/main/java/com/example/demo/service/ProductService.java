@@ -9,5 +9,6 @@ public interface ProductService {
     List<Product> getAllProducts();
     Product findProductByProductId(long productId);
     Product updateProduct(Product product);
+    String removeProduct(Product product);
     Product addToCart(Product product);
 }

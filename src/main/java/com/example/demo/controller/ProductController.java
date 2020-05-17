@@ -48,6 +48,14 @@ final class ProductController {
     ResponseEntity<Product> update(@RequestBody Product product) {
         return ResponseEntity.ok(productService.updateProduct(product));
     }
+    
+    @PostMapping("/remove")
+    ResponseEntity<Product> remove(@RequestBody int productId) {
+        Product temp = productService.findProductByProductId(productId);
+        productService.removeProduct(productService.findProductByProductId(productId));
+        return ResponseEntity.ok(temp);
+    }
+    
     //Update data in db
 
 }
