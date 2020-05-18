@@ -10,13 +10,12 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class CartProductServiceImpl implements CartProductService{
+public class CartProductServiceImpl implements CartProductService {
 
     @Inject
     private LoginServiceImpl loginServiceImpl;
-    
+
     @Autowired
     CartProductRepository cartProductRepository;
 
@@ -29,16 +28,16 @@ public class CartProductServiceImpl implements CartProductService{
     @Override
     public List<Product> getCartProductsForCustomer() {
         List<Product> cartProductsList = new ArrayList<>();
-        for(CartProduct cp : cartProductRepository.findAll()){
-            if(!cp.getCart().isPurchased()){
-           if(cp.getCart().getUser().getUsername().equalsIgnoreCase(loginServiceImpl.getUser().getUsername())){
-               cartProductsList.add(cp.getProduct());
-           }
-        }
+        for (CartProduct cp : cartProductRepository.findAll()) {
+            if (!cp.getCart().isPurchased()) {
+                if (cp.getCart().getUser().getUsername().equalsIgnoreCase(loginServiceImpl.getUser().getUsername())) {
+                    cartProductsList.add(cp.getProduct());
+                }
+            }
         }
         return cartProductsList;
     }
-    
+
     @Override
     public List<Product> getCartProductsForCustomer(long customerId) {
         List<Product> cartProductsList = new ArrayList<>();
@@ -49,37 +48,39 @@ public class CartProductServiceImpl implements CartProductService{
         });
         return cartProductsList;
     }
-    
+
     @Override
     public void removeCartProduct(Product cartProduct) {
-        for(CartProduct cp : cartProductRepository.findAll()){
-           if(cp.getCart().getUser().getUsername().equalsIgnoreCase(loginServiceImpl.getUser().getUsername()) && cp.getProduct().getId() == cartProduct.getId()){
-               cartProductRepository.delete(cp);
-               break;
-           }
+        for (CartProduct cp : cartProductRepository.findAll()) {
+            if (cp.getCart().getUser().getUsername().equalsIgnoreCase(loginServiceImpl.getUser().getUsername()) && cp.getProduct().getId() == cartProduct.getId()) {
+                cartProductRepository.delete(cp);
+                break;
+            }
         }
     }
 
     @Override
     public double countTotalPrice(User user) {
         double totalPrice = 0;
-           for(CartProduct cp : cartProductRepository.findAll()){
-           if(cp.getCart().getUser().getUsername().equalsIgnoreCase(user.getUsername()) && !cp.getCart().isPurchased()){
+        for (CartProduct cp : cartProductRepository.findAll()) {
+            if (cp.getCart().getUser().getUsername().equalsIgnoreCase(user.getUsername()) && !cp.getCart().isPurchased()) {
                 totalPrice += cp.getProduct().getPrice();
-           }
+            }
         }
-            System.out.println(totalPrice);
-            return totalPrice;
+        System.out.println(totalPrice);
+        return totalPrice;
     }
-    
+
     @Override
     public boolean checkCartPremium(User user) {
         double totalPrice = 0;
-        
-        for(CartProduct cp : cartProductRepository.findAll())
-           if(cp.getCart().getUser().getUsername().equalsIgnoreCase(user.getUsername()))
+
+        for (CartProduct cp : cartProductRepository.findAll()) {
+            if (cp.getCart().getUser().getUsername().equalsIgnoreCase(user.getUsername())) {
                 totalPrice += cp.getProduct().getPrice();
-                     
+            }
+        }
+
         return totalPrice > 500000;
     }
 }

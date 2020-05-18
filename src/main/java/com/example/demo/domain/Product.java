@@ -6,14 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Product{
-    
+public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String productType;
-    private String brand;  
+    private String brand;
     private String model;
     private String color;
     private double price;
@@ -70,7 +70,7 @@ public class Product{
     }
 
     public double getPrice() {
-        
+
         return price;
     }
 
@@ -99,5 +99,5 @@ public class Product{
     public String toString() {
         return "Product{" + "productType=" + productType + ", brand=" + brand + ", model=" + model + ","
                 + " color=" + color + ", price=" + price + '}';
-    }  
+    }
 }
