@@ -1,13 +1,18 @@
+
+//For displayen products
+
 function displayProducts() {
     $.ajax(
             {
                 url: "/product/showall",
             }).then(function (data) {
 
+        //Hide edit-form and empty stats to show new data
         $('#edit-form').hide();
         $('#stats-body').empty();
         $('#stats').show();
 
+        //Loop thru received data and display into our tr, td
         data.forEach(function (row)
         {
             $('#stats-body').append(
@@ -21,12 +26,14 @@ function displayProducts() {
                     "<td><button class='btn btn-primary' onclick='editProduct(" + row.id + ")'>Edit</button></td></tr>");
             //"<td><button class='btn btn-success' onclick='addToCart(" + row.id + ")'>Add to order</button></td></tr>");
         });
+
+        //Hide not needed buttons
         $("#purchase-button").hide();
         $("#product-button").hide();
-
     });
 }
 
+//For editing product
 function editProduct(data) {
     var data = data;
     $.ajax({
@@ -46,20 +53,17 @@ function editProduct(data) {
             document.getElementById('input1').value = result.brand;
             document.getElementById('input2').value = result.model;
             document.getElementById('input3').value = result.color;
-
-            //$("#cart-button").hide();
-            //$("#purchase-button").show();
-            //$("#product-button").show();
-            //$(".remove-button").show();
+            document.getElementById('input4').value = result.price;
         }
     });
 }
 
+//Show a dialog with info of specific product
 function displayProductInfo(data) {
     alert("Description - " + data);
 }
 
-
+//Show history of cart
 function checkHistory(data) {
     var data = data;
     $.ajax({
@@ -90,6 +94,7 @@ function checkHistory(data) {
     });
 }
 
+//View for admin, customised with being able to remove product
 function displayForAdmin() {
     $.ajax(
             {
@@ -119,36 +124,7 @@ function displayForAdmin() {
     });
 }
 
-/*
- function displayForAdmin() {
- $.ajax(
- {
- url: "/product/admin",
- }).then(function (data) {
- 
- $('#stats-admin').show();
- $('#stats-admin-body').empty();
- $('#stats-body').empty();
- $('#stats').hide();
- $("#admin-button").hide();
- 
- data.forEach(function (row) 
- {
- $('#stats-admin-body').append(
- "<tr>" + 
- "<td>" + row.id + "</td>" +
- "<td>" + row.name + "</td>" +
- "<td>" + row.username + "</td>" +
- "<td>" + row.roles + "</td>" +
- "<td><button class='btn btn-success' onclick='checkHistory(" + row.id + ")'>Purchase history</button></td></tr>");
- }); 
- $("#purchase-button").hide();
- $("#product-button").hide();
- 
- });
- }
- */
-
+//View for cart, when user have added products into cart, this function is not available for this demo
 function displayCart() {
     $.ajax({
         url: "/cart/products",
@@ -171,13 +147,6 @@ function displayCart() {
 
     });
 }
-
-/*
- * Gjorde om button till button onclick, den lästes annars som att den anropade metoden istället, det var aldrig en onclick
- * Gjorde om reg-button hide, det klassades som id istället (eller tvärtom, minns ej)
- * Kodade om addToCart att den hanterar row.id istället för objekt, fick problem annars
- * Kodade om serverdelen att den tar emot product id, söker upp i db och skapar upp nytt product objekt
- */
 
 function hideCartButtons() {
     $("#cart-button").hide();
@@ -208,6 +177,7 @@ function registerClick() {
     $("#reg-form").show();
 }
 
+//Not available for this demo
 function purchase() {
     $.ajax(
             {
@@ -227,6 +197,7 @@ function purchase() {
     });
 }
 
+//Remove product
 function removeProduct(data) {
     var data = data;
     $.ajax({
@@ -249,7 +220,7 @@ function removeProduct(data) {
     });
 }
 
-
+//Not available for this demo
 function addToCart(data) {
     var data = data;
     $.ajax({
@@ -274,9 +245,18 @@ function addToCart(data) {
     });
 }
 
+//To catch submit events
 $(document).ready(function () {
 
     preLogin();
+
+    $("#searchField").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#stats-body tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
     $("#login-form").submit(function (event) {
 
         // Don't submit the form normally
@@ -301,8 +281,10 @@ $(document).ready(function () {
                 console.log(result);
                 if (result.username !== null)
                 {
+                    //If this account has role as admin
                     if (result.roles === "admin")
                     {
+                        //Display view for admin
                         displayForAdmin();
                         $('#result-message').empty().append("You have logged in: " + result.username + " - Role: " + result.roles);
                         $("#login-form").hide();
@@ -312,6 +294,7 @@ $(document).ready(function () {
                         //$("#stats-admin").show(); 
                     } else
                     {
+                        //Else, display for normal user
                         displayProducts();
                         $('#result-message').empty().append("You have logged in: " + result.username + " - Role: " + result.roles);
                         $("#login-form").hide();
@@ -329,7 +312,7 @@ $(document).ready(function () {
         });
     });
 
-
+    //Catch submit when register
     $("#reg-form").submit(function (event) {
 
         // Don't submit the form normally
@@ -363,7 +346,7 @@ $(document).ready(function () {
         });
     });
 
-
+    //Catch submit when editing a product
     $("#edit-form").submit(function (event) {
 
         // Don't submit the form normally
@@ -375,9 +358,10 @@ $(document).ready(function () {
                 brand = $form.find("input[name='edit-brand']").val(),
                 model = $form.find("input[name='edit-model']").val(),
                 color = $form.find("input[name='edit-color']").val();
+        price = $form.find("input[name='edit-price']").val();
 
         // Compose the data in the format that the API is expecting
-        var data = {id: id, brand: brand, model: model, color: color};
+        var data = {id: id, brand: brand, model: model, color: color, price: price};
 
         // Send the data using post
         $.ajax({
@@ -389,6 +373,8 @@ $(document).ready(function () {
             async: false,
             success: function (result) {
                 console.log(result);
+
+                //Fade out after 1000ms
                 $('#result-message').show().delay(1000).fadeOut();
 
                 if (result.brand !== null) {

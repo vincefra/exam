@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-
 @ToString
 @EqualsAndHashCode
 @Entity
@@ -23,7 +22,7 @@ public class User {
     private String username;
     private String password;
     private String roles;
-    
+
     @OneToOne
     private Cart cart;
 
@@ -33,15 +32,15 @@ public class User {
         username = null;
         password = null;
     }
-    
-    public User(String name, String username, String password){
+
+    public User(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.roles = "customer";
     }
-    
-    public User (String name, String username, String password, String roles){
+
+    public User(String name, String username, String password, String roles) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -83,7 +82,7 @@ public class User {
     public void setRoles(String role) {
         this.roles = role;
     }
-    
+
     public Cart getCart() {
         return cart;
     }
@@ -91,6 +90,5 @@ public class User {
     public void setCart(Cart cart) {
         this.cart = cart;
     }
-    
-    
+
 }

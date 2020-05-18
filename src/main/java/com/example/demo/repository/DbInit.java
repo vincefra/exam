@@ -8,18 +8,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DbInit implements CommandLineRunner{
+public class DbInit implements CommandLineRunner {
+
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    public DbInit(UserRepository userRepository, ProductRepository productRepository){
-        this.userRepository = userRepository; 
+    public DbInit(UserRepository userRepository, ProductRepository productRepository) {
+        this.userRepository = userRepository;
         this.productRepository = productRepository;
         //Declare repo so we can call its functions
     }
+
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(new User("test", "test", "test123"));    
+        userRepository.save(new User("test", "test", "test123"));
         //Add specific user as single in repo
 
         User admin = new User("admin", "admin", "admin123", "admin");
@@ -27,7 +29,7 @@ public class DbInit implements CommandLineRunner{
         //Make new user object and add into ArrayList, use saveAll to save that list
 
         List<User> users = Arrays.asList(admin, vincent);
-        
+
         this.userRepository.saveAll(users);
         //Save all users (arrayList) into userRepo
 
@@ -37,7 +39,7 @@ public class DbInit implements CommandLineRunner{
         Product p4 = new Product("Car", "Audi", "S5", "Black Diamond", 500000);
         Product p5 = new Product("Car", "Audi", "A5", "Red Carbon", 350000);
         Product p6 = new Product("Car", "Opel", "Mazda", "Silver", 250000);
-        
+
         Product p7 = new Product("Car", "Volvo", "V90", "Silver", 450000);
         Product p8 = new Product("Car", "Volvo", "V70", "Black", 325000);
         Product p9 = new Product("Car", "Volkswagen", "Passat", "White", 280000);
@@ -45,11 +47,9 @@ public class DbInit implements CommandLineRunner{
         Product p11 = new Product("Car", "Volkswagen", "Golf Combi", "Nano Grey", 310000);
         Product p12 = new Product("Car", "Volkswagen", "Golf Sport", "Midnight Black", 350000);
         Product p13 = new Product("Car", "Volkswagen", "Passat RS", "Gun Metal Grey", 450000);
-        
+
         Product p14 = new Product("Car", "Tesla", "Model S", "Awesome Blue", 980000);
         Product p15 = new Product("Car", "Volkswagen", "Model 3", "Electric White", 650000);
-        
-        
 
         List<Product> products = Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8,
                 p9, p10, p11, p12, p13, p14, p15);
