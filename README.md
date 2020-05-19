@@ -2,8 +2,7 @@
 
 Contains a server, client and database. The server is written in Java SpringBoot while client is Html & JavaScript. 
 
-Both client and server is sharing the same tomcat-server. Database is right now using Hibernate as it is easier to
-develop but the goal is to setup PostgresSQL with flyway to execute and version management.
+Both client and server is sharing the same tomcat-server. Database is right now using H2 & Hibernate as it is easier to develop but the goal is to setup PostgresSQL with flyway to execute and version management.
 
 ## Setup
 
