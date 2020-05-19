@@ -19,3 +19,9 @@ DbInit contains the information of the database, you can either register your ow
 
 If the project still runs on Hibernate, every time you restart the project all the changes in the database will be
 gone, it will go back to standard again!
+
+For frontend:
+http://localhost:8080
+
+For swagger-ui
+http://localhost:8080/swagger-ui.html
